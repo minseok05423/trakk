@@ -1,0 +1,30 @@
+{
+  "runId": "test-run-001",
+  "startTime": "2025-01-15T10:30:00Z",
+  "endTime": "2025-01-15T10:32:30Z",
+  "sensorData": [
+    {
+      "timestamp": 1705318200000,
+      "lat": 47.123456,
+      "lon": 8.654321,
+      "alt": 2100.5,
+      "gpsAccuracy": 5.2,
+      "accelX": 0.5,
+      "accelY": -0.2,
+      "accelZ": 9.8,
+      "gyroX": 0.1,
+      "gyroY": 0.05,
+      "gyroZ": -0.3,
+      "magX": 20.5,
+      "magY": -5.3,
+      "magZ": 45.2,
+      "pressure": 101325,
+      "temperature": -5.2
+    }
+  ],
+  "metadata": {
+    "resort": "Test Resort",
+    "runType": "slalom",
+    "deviceId": "ESP32-001"
+  }
+}

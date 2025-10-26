@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  runs      Run[]
+}
+
+model Run {
+  id                  String   @id @default(uuid())
+  userId              String
+  uploadTime          DateTime @default(now())
+  processingStatus    String   // 'uploaded' | 'processing' | 'completed' | 'failed'
+  rawDataS3Key        String
+  processedDataS3Key  String?
+
+  // Metadata
+  duration            Float?
+  resort              String?
+  runType             String?  // 'slalom' | 'giant-slalom'
+
+  // Metrics summary
+  totalDistance       Float?
+  avgSpeed            Float?
+  maxSpeed            Float?
+  turnCount           Int?
+
+  user                User          @relation(fields: [userId], references: [id])
+  turnMetrics         TurnMetric[]
+
+  @@index([userId, uploadTime])
+}
+
+model TurnMetric {
+  id          String   @id @default(uuid())
+  runId       String
+  turnNumber  Int
+  startTime   DateTime
+  endTime     DateTime
+  radius      Float
+  maxGForce   Float
+  avgSpeed    Float
+  rollAngle   Float
+  circleCenterX Float?
+  circleCenterY Float?
+
+  run         Run      @relation(fields: [runId], references: [id], onDelete: Cascade)
+
+  @@index([runId, turnNumber])
+}
